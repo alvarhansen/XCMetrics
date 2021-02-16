@@ -48,5 +48,19 @@ services:
       - REDIS_HOST=redis
       - DB_HOST=postgresql
 
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    links:
+      - postgresql
+
 volumes:
   postgres:
+  grafana-storage:
